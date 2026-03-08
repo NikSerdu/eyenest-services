@@ -1,0 +1,17 @@
+подключается камера:
+	- участники комнаты слушают SHARE_CAMERA_PEER_ID, добавляют себе cameraPeerId, создают offer, вызывают setLocalDescription, отправляют offer через RELAY_SDP для камеры, отправляют ice_candidate через RELAY_ICE
+	- камера слушает RELAY_SDP и при срабатывании события устанавливает setRemoteDescription, создаёт answer,вызывает setLocalDescription, через RELAY_SDP отправляет answer всем viewer и через RELAY_ICE отправляет ice_candidate для всех viewer
+	- viewer слушают RELAY_SDP и при срабатывании устанавливают setRemoteDescription
+	- viewer слушают RELAY_ICE и при срабатывании устанавливают ice_candidate
+
+подключается viewer:
+	- ADD_VIEWER_PEER для камеры
+	- участник комнаты слушает SHARE_CAMERA_PEER_ID, добавляет себе cameraPeerId, создает offer, вызывает setLocalDescription, отправляет offer через RELAY_SDP для камеры, отправляет ice_candidate через RELAY_ICE
+	- камера слушает RELAY_SDP и при срабатывании события устанавливает setRemoteDescription, создаёт answer,вызывает setLocalDescription, через RELAY_SDP отправляет answer для viewer и через RELAY_ICE отправляет ice_candidate для viewer
+	- viewer слушает RELAY_SDP и при срабатывании устанавливает setRemoteDescription
+	- viewer слушает RELAY_ICE и при срабатывании устанавливает ice_candidate
+
+отключается камера:
+	- сообщить всем viewer об этом через CAMERA_OFFLINE
+отключается viewer:
+	- сообщить камере через DELETE_VIEWER

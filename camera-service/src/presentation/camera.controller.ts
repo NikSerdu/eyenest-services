@@ -22,11 +22,6 @@ export class CameraController {
 
   @GrpcMethod('CameraService', 'GetLocationsByUserId')
   async getUserLocations(data: GetLocationsByUserIdRequest) {
-    console.log(111);
-
-    const res = await this.getLocationsByUserId.execute(data);
-    console.log(res.locations[0].cameras);
-
     return await this.getLocationsByUserId.execute(data);
   }
 

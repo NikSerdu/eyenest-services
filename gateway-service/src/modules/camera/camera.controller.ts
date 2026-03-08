@@ -40,7 +40,7 @@ export class CameraController {
     const res = await this.camera.call('getLocationsByUserId', {
       userId,
     });
-    return Array.isArray(res.locations) ? res.locations : res;
+    return res.locations ? res.locations : [];
   }
 
   @ApiCookieAuth('accessToken')
