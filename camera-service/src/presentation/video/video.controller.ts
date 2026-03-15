@@ -6,8 +6,8 @@ import type {
 } from '@eyenest/contracts/gen/ts/camera';
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-import { GetLiveKitViewerTokenUseCase } from '@/application/useCases/getLiveKitViewerToken.useCase';
-import { GetLiveKitCameraTokenUseCase } from '@/application/useCases/getLiveKitCameraToken.useCase';
+import { GetLiveKitViewerTokenUseCase } from '@/application/useCases/live-kit/getLiveKitViewerToken.useCase';
+import { GetLiveKitCameraTokenUseCase } from '@/application/useCases/camera/getLiveKitCameraToken.useCase';
 @Controller('camera')
 export class VideoController {
   constructor(

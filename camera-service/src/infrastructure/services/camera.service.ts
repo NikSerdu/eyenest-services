@@ -11,6 +11,7 @@ import { RpcException } from '@nestjs/microservices';
 import { RpcStatus } from '@eyenest/common';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
+import { ITokenVerify } from '@/shared/types/jwt.interface';
 
 @Injectable()
 export class CameraService implements ICameraService {
@@ -19,7 +20,9 @@ export class CameraService implements ICameraService {
     private readonly jwt: JwtService,
     private readonly config: ConfigService,
   ) {}
-  async getCameraTempToken(data: AddCameraRequest): Promise<AddCameraResponse> {
+  async getCameraTempToken(
+    data: Omit<AddCameraRequest, 'userId'>,
+  ): Promise<AddCameraResponse> {
     const token = randomBytes(32).toString('hex');
 
     await this.redis.set(
@@ -48,8 +51,6 @@ export class CameraService implements ICameraService {
       });
     }
     this.redis.del(`camera:temp:${token}`);
-    console.log(JSON.parse(data));
-
     return JSON.parse(data);
   }
 
@@ -69,5 +70,19 @@ export class CameraService implements ICameraService {
       accessToken,
       refreshToken,
     };
+  }
+  async verifyToken(refreshToken: string): Promise<ITokenVerify> {
+    try {
+      const data = await this.jwt.verifyAsync(refreshToken);
+      return {
+        isValid: true,
+        cameraId: data.sub,
+      };
+    } catch (error) {
+      return {
+        isValid: false,
+        cameraId: null,
+      };
+    }
   }
 }

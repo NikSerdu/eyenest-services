@@ -12,8 +12,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@eyenest/contracts':
-        specifier: ^1.4.0
-        version: 1.4.0(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)
+        specifier: ^1.4.3
+        version: 1.4.3(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)
       '@grpc/grpc-js':
         specifier: ^1.14.3
         version: 1.14.3
@@ -424,8 +424,8 @@ packages:
   '@eyenest/common@1.0.2':
     resolution: {integrity: sha512-3Szmy6w+H8wWJX+N3eAS7lIMFMNW1ZUryYWwII1BzYRv6dmw+bl6GDty7aUT5L8suJbd6ylclEII6Rt81601rg==}
 
-  '@eyenest/contracts@1.4.0':
-    resolution: {integrity: sha512-nyZqSN5IJ0pfhC8mmmSa8TqNo6RTM9I0hmmFqOkQE1+Y4XF92fXX0kxQe53cMHpohPq3ctLwvAknPcd94InWKg==}
+  '@eyenest/contracts@1.4.3':
+    resolution: {integrity: sha512-liJp7KljjrR7sGGeou7gedKA9W3TG4MWfmnbhZSDcaQc3UiZSh1s0G/X/3FF+D9X0sfM9pVGev4khmEo+zeJYQ==}
 
   '@grpc/grpc-js@1.14.3':
     resolution: {integrity: sha512-Iq8QQQ/7X3Sac15oB6p0FmUg/klxQvXLeileoqrTRGJYLV+/9tubbr9ipz0GKHjmXVsgFPo/+W+2cA8eNcR+XA==}
@@ -3938,7 +3938,7 @@ snapshots:
 
   '@eyenest/common@1.0.2(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
     dependencies:
-      '@eyenest/contracts': 1.4.0(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)
+      '@eyenest/contracts': 1.4.3(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)
       '@nestjs/common': 11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/config': 4.0.2(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@nestjs/microservices': 11.1.11(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -3959,7 +3959,7 @@ snapshots:
       - rxjs
       - supports-color
 
-  '@eyenest/contracts@1.4.0(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)':
+  '@eyenest/contracts@1.4.3(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)':
     dependencies:
       '@nestjs/microservices': 11.1.11(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       rxjs: 7.8.2

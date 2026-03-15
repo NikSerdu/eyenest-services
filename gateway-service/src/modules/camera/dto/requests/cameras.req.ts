@@ -26,3 +26,10 @@ export class LinkCameraRequest {
   @IsNotEmpty()
   token: string;
 }
+
+export class GetLinkCameraTokenRequest {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  cameraId: string;
+}

@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CameraEntity, LocationEntity } from '../entities';
+import {
+  CameraEntity,
+  CameraEntityWithLocation,
+  LocationEntity,
+} from '../entities';
 import {
   AddCameraRequest,
   CreateLocationRequest,
@@ -17,4 +21,6 @@ export abstract class ICameraRepository {
   abstract addCamera(
     data: Omit<AddCameraRequest, 'userId'>,
   ): Promise<CameraEntity>;
+  abstract getLocationById(id: string): Promise<LocationEntity | null>;
+  abstract getCameraById(id: string): Promise<CameraEntityWithLocation | null>;
 }

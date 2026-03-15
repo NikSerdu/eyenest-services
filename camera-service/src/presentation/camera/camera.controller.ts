@@ -1,15 +1,19 @@
-import { GetLocationsByUserIdUseCase } from '@/application/useCases/getLocationsByUserId.useCase';
+import { GetLocationsByUserIdUseCase } from '@/application/useCases/live-kit/getLocationsByUserId.useCase';
 import type {
   AddCameraRequest,
   CreateLocationRequest,
+  GetLinkCameraTokenRequest,
   GetLocationsByUserIdRequest,
   LinkCameraRequest,
+  RefreshRequest,
 } from '@eyenest/contracts/gen/ts/camera';
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-import { CreateLocationUseCase } from '@/application/useCases/createLocation.useCase';
-import { AddCameraUseCase } from '@/application/useCases/addCamera.useCase';
-import { LinkCameraUseCase } from '@/application/useCases/linkCamera.useCase';
+import { CreateLocationUseCase } from '@/application/useCases/camera/createLocation.useCase';
+import { AddCameraUseCase } from '@/application/useCases/camera/addCamera.useCase';
+import { LinkCameraUseCase } from '@/application/useCases/camera/linkCamera.useCase';
+import { RefreshUseCase } from '@/application/useCases/camera/refresh.useCase';
+import { GetLinkCameraTokenUseCase } from '@/application/useCases/camera/getLinkCameraToken.useCase';
 
 @Controller('camera')
 export class CameraController {
@@ -18,6 +22,8 @@ export class CameraController {
     private readonly createLocationUseCase: CreateLocationUseCase,
     private readonly addCameraUseCase: AddCameraUseCase,
     private readonly linkCameraUseCase: LinkCameraUseCase,
+    private readonly refreshUseCase: RefreshUseCase,
+    private readonly getLinkCameraTokenUseCase: GetLinkCameraTokenUseCase,
   ) {}
 
   @GrpcMethod('CameraService', 'GetLocationsByUserId')
@@ -38,5 +44,15 @@ export class CameraController {
   @GrpcMethod('CameraService', 'LinkCamera')
   async linkCamera(data: LinkCameraRequest) {
     return await this.linkCameraUseCase.execute(data);
+  }
+
+  @GrpcMethod('CameraService', 'Refresh')
+  async refresh(data: RefreshRequest) {
+    return await this.refreshUseCase.execute(data);
+  }
+
+  @GrpcMethod('CameraService', 'GetLinkCameraToken')
+  async getLinkCameraToken(data: GetLinkCameraTokenRequest) {
+    return await this.getLinkCameraTokenUseCase.execute(data);
   }
 }

@@ -42,3 +42,8 @@ export class LinkCameraResponse {
   @ApiProperty()
   accessToken: string;
 }
+
+export class GetLinkCameraTokenResponse {
+  @ApiProperty()
+  token: string;
+}

@@ -27,6 +27,16 @@ export class AddCameraUseCase {
       });
     }
 
+    const location = await this.cameraRepository.getLocationById(
+      data.locationId,
+    );
+    if (!location) {
+      throw new RpcException({
+        code: RpcStatus.NOT_FOUND,
+        details: 'Локация не найдена!',
+      });
+    }
+
     return await this.cameraService.getCameraTempToken(data);
   }
 }

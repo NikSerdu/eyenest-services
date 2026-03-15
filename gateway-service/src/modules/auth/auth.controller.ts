@@ -14,7 +14,7 @@ import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { LoginRequest, LoginResponse, RegisterResponse } from './dto';
 import type { Response, Request } from 'express';
 import { ConfigService } from '@nestjs/config';
-import { Auth, CurrentUser } from '@/shared';
+import { Auth, Current } from '@/shared';
 import { GetUserResponse } from './dto/responses/getUser.res';
 
 @Controller('auth')
@@ -153,9 +153,9 @@ export class AuthController {
     type: GetUserResponse,
   })
   @HttpCode(HttpStatus.OK)
-  @Auth()
+  @Auth('user')
   @Get('getUser')
-  async getUser(@CurrentUser() userId: string) {
+  async getUser(@Current('user') userId: string) {
     console.log(userId);
 
     return await this.auth.call('getUserById', { userId });

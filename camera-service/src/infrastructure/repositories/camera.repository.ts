@@ -1,4 +1,9 @@
-import { CameraEntity, ICameraRepository, LocationEntity } from '@/domain';
+import {
+  CameraEntity,
+  CameraEntityWithLocation,
+  ICameraRepository,
+  LocationEntity,
+} from '@/domain';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { GetCameraByNameAndLocation, LocationWithCameras } from '@/shared';
@@ -83,6 +88,27 @@ export class CameraRepository implements ICameraRepository {
       },
       include: {
         cameraSettings: true,
+      },
+    });
+  }
+  async getLocationById(id: string): Promise<LocationEntity | null> {
+    return await this.prisma.location.findUnique({
+      where: { id },
+      include: {
+        cameras: {
+          include: {
+            cameraSettings: true,
+          },
+        },
+      },
+    });
+  }
+  async getCameraById(id: string): Promise<CameraEntityWithLocation | null> {
+    return await this.prisma.camera.findUnique({
+      where: { id },
+      include: {
+        cameraSettings: true,
+        location: true,
       },
     });
   }

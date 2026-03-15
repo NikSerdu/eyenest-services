@@ -8,16 +8,23 @@ import {
   Res,
 } from '@nestjs/common';
 import { ApiOperation, ApiOkResponse, ApiCookieAuth } from '@nestjs/swagger';
-import { AddCameraResponse, LinkCameraResponse, LocationResponse } from './dto';
-import { Auth, CurrentUser } from '@/shared';
+import {
+  AddCameraResponse,
+  GetLinkCameraTokenResponse,
+  LinkCameraResponse,
+  LocationResponse,
+} from './dto';
+import { Auth, Current } from '@/shared';
 import {
   AddCameraRequest,
   CreateLocationRequest,
   LinkCameraRequest,
+  GetLinkCameraTokenRequest,
 } from './dto/requests/cameras.req';
 import type { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { CameraClientGrpc } from '@/core/grpc-clients/camera.grpc';
+
 @Controller('camera')
 export class CameraController {
   constructor(
@@ -34,9 +41,9 @@ export class CameraController {
     isArray: true,
   })
   @HttpCode(HttpStatus.OK)
-  @Auth()
+  @Auth('user')
   @Get('locations')
-  async getCameras(@CurrentUser() userId: string) {
+  async getCameras(@Current('user') userId: string) {
     const res = await this.camera.call('getLocationsByUserId', {
       userId,
     });
@@ -51,10 +58,10 @@ export class CameraController {
     type: LocationResponse,
   })
   @HttpCode(HttpStatus.OK)
-  @Auth()
+  @Auth('user')
   @Post('locations')
   async createLocation(
-    @CurrentUser() userId: string,
+    @Current('user') userId: string,
     @Body() body: CreateLocationRequest,
   ) {
     return await this.camera.call('createLocation', {
@@ -71,10 +78,10 @@ export class CameraController {
     type: AddCameraResponse,
   })
   @HttpCode(HttpStatus.OK)
-  @Auth()
+  @Auth('user')
   @Post('addCamera')
   async addCamera(
-    @CurrentUser() userId: string,
+    @Current('user') userId: string,
     @Body() body: AddCameraRequest,
   ) {
     return await this.camera.call('addCamera', {
@@ -83,7 +90,6 @@ export class CameraController {
     });
   }
 
-  // @ApiCookieAuth('accessToken')
   @ApiOperation({
     summary: 'Link camera to location',
   })
@@ -117,5 +123,24 @@ export class CameraController {
     return {
       accessToken,
     };
+  }
+
+  @ApiOperation({
+    summary: 'Get link camera token',
+  })
+  @ApiOkResponse({
+    type: GetLinkCameraTokenResponse,
+  })
+  @Auth('user')
+  @HttpCode(HttpStatus.OK)
+  @Post('getLinkCameraToken')
+  async getLinkCameraToken(
+    @Body() body: GetLinkCameraTokenRequest,
+    @Current('user') userId: string,
+  ) {
+    return await this.camera.call('getLinkCameraToken', {
+      cameraId: body.cameraId,
+      userId,
+    });
   }
 }
