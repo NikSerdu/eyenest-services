@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaModule } from './infrastructure/prisma/prisma.module';
-import { CameraModule } from './presentation/camera.module';
+import { CameraModule } from './presentation/camera/camera.module';
 import { RedisModule } from './infrastructure/redis/redis.module';
 import { JwtModule } from '@nestjs/jwt';
 import { getJwtConfig } from './shared';
+import { VideoModule } from './presentation/video/video.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -24,6 +25,7 @@ import { getJwtConfig } from './shared';
     PrismaModule,
     CameraModule,
     RedisModule,
+    VideoModule,
   ],
 })
 export class AppModule {}

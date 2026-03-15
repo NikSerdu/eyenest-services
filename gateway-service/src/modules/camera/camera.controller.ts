@@ -7,7 +7,6 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
-import { CameraClientGrpc } from './camera.grpc';
 import { ApiOperation, ApiOkResponse, ApiCookieAuth } from '@nestjs/swagger';
 import { AddCameraResponse, LinkCameraResponse, LocationResponse } from './dto';
 import { Auth, CurrentUser } from '@/shared';
@@ -18,6 +17,7 @@ import {
 } from './dto/requests/cameras.req';
 import type { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { CameraClientGrpc } from '@/core/grpc-clients/camera.grpc';
 @Controller('camera')
 export class CameraController {
   constructor(
@@ -100,6 +100,13 @@ export class CameraController {
       'linkCamera',
       body,
     );
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
+      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: this.config.getOrThrow('NODE_ENV') !== 'development',

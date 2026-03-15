@@ -1,5 +1,5 @@
 import { ICameraRepository } from '@/domain';
-import { AuthClientGrpc } from '@/presentation/auth.grpc';
+import { AuthClientGrpc } from '@/presentation/camera/auth.grpc';
 import { mapStatus } from '@/shared';
 import { RpcStatus } from '@eyenest/common';
 import {

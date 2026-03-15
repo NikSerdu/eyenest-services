@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { JwtStrategy } from 'src/shared/strategies/jwt.strategy';
 import { CameraModule } from '@/modules/camera/camera.module';
+import { LiveKitModule } from '@/modules/live_kit/live_kit.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CameraModule } from '@/modules/camera/camera.module';
     }),
     AuthModule,
     CameraModule,
+    LiveKitModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CameraController } from './camera.controller';
 import { GrpcModule } from '@eyenest/common';
-import { CameraClientGrpc } from './camera.grpc';
+import { CameraClientGrpc } from '../../core/grpc-clients/camera.grpc';
 
 @Module({
   imports: [GrpcModule.register(['CAMERA_PACKAGE'])],

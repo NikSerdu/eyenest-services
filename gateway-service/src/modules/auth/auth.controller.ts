@@ -40,6 +40,13 @@ export class AuthController {
       'register',
       body,
     );
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
+      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: this.config.getOrThrow('NODE_ENV') !== 'development',
