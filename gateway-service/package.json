@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@eyenest/common": "^1.0.2",
-    "@eyenest/contracts": "^1.4.3",
+    "@eyenest/contracts": "^1.4.4",
     "@grpc/grpc-js": "^1.14.3",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",

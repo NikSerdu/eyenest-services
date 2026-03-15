@@ -4,6 +4,7 @@ import type {
   CreateLocationRequest,
   GetLinkCameraTokenRequest,
   GetLocationsByUserIdRequest,
+  GetCameraUserIdByCameraIdRequest,
   LinkCameraRequest,
   RefreshRequest,
 } from '@eyenest/contracts/gen/ts/camera';
@@ -14,6 +15,7 @@ import { AddCameraUseCase } from '@/application/useCases/camera/addCamera.useCas
 import { LinkCameraUseCase } from '@/application/useCases/camera/linkCamera.useCase';
 import { RefreshUseCase } from '@/application/useCases/camera/refresh.useCase';
 import { GetLinkCameraTokenUseCase } from '@/application/useCases/camera/getLinkCameraToken.useCase';
+import { GetCameraUserIdUseCase } from '@/application/useCases/camera/getCameraUserId.useCase';
 
 @Controller('camera')
 export class CameraController {
@@ -24,6 +26,7 @@ export class CameraController {
     private readonly linkCameraUseCase: LinkCameraUseCase,
     private readonly refreshUseCase: RefreshUseCase,
     private readonly getLinkCameraTokenUseCase: GetLinkCameraTokenUseCase,
+    private readonly getCameraUserIdUseCase: GetCameraUserIdUseCase,
   ) {}
 
   @GrpcMethod('CameraService', 'GetLocationsByUserId')
@@ -54,5 +57,10 @@ export class CameraController {
   @GrpcMethod('CameraService', 'GetLinkCameraToken')
   async getLinkCameraToken(data: GetLinkCameraTokenRequest) {
     return await this.getLinkCameraTokenUseCase.execute(data);
+  }
+
+  @GrpcMethod('CameraService', 'GetCameraUserIdByCameraId')
+  async getCameraUserIdByCameraId(data: GetCameraUserIdByCameraIdRequest) {
+    return await this.getCameraUserIdUseCase.execute(data);
   }
 }

@@ -18,15 +18,6 @@ export class GetLinkCameraTokenUseCase {
   async execute(
     data: GetLinkCameraTokenRequest,
   ): Promise<GetLinkCameraTokenResponse> {
-    const userId = await this.cameraRepository.getUserIdByCameraId(
-      data.cameraId,
-    );
-    if (userId !== data.userId) {
-      throw new RpcException({
-        code: RpcStatus.UNAUTHENTICATED,
-        details: 'Вы не имеете доступа к этой камере!',
-      });
-    }
     const camera = await this.cameraRepository.getCameraById(data.cameraId);
     if (!camera) {
       throw new RpcException({

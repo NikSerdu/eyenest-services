@@ -14,7 +14,7 @@ import {
   LinkCameraResponse,
   LocationResponse,
 } from './dto';
-import { Auth, Current } from '@/shared';
+import { Auth, CameraOwner, Current } from '@/shared';
 import {
   AddCameraRequest,
   CreateLocationRequest,
@@ -131,7 +131,7 @@ export class CameraController {
   @ApiOkResponse({
     type: GetLinkCameraTokenResponse,
   })
-  @Auth('user')
+  @CameraOwner()
   @HttpCode(HttpStatus.OK)
   @Post('getLinkCameraToken')
   async getLinkCameraToken(

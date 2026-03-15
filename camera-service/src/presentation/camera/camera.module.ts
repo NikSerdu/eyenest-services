@@ -14,6 +14,7 @@ import { CameraService } from '@/infrastructure/services/camera.service';
 import { AddCameraUseCase } from '@/application/useCases/camera/addCamera.useCase';
 import { RefreshUseCase } from '@/application/useCases/camera/refresh.useCase';
 import { GetLinkCameraTokenUseCase } from '@/application/useCases/camera/getLinkCameraToken.useCase';
+import { GetCameraUserIdUseCase } from '@/application/useCases/camera/getCameraUserId.useCase';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { GetLinkCameraTokenUseCase } from '@/application/useCases/camera/getLink
     AddCameraUseCase,
     RefreshUseCase,
     GetLinkCameraTokenUseCase,
+    GetCameraUserIdUseCase,
   ],
 })
 export class CameraModule {}

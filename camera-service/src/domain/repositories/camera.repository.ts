@@ -13,7 +13,7 @@ import { GetCameraByNameAndLocation } from '@/shared';
 @Injectable()
 export abstract class ICameraRepository {
   abstract getLocationsByUserId(userId: string): Promise<LocationEntity[]>;
-  abstract getUserIdByCameraId(cameraId: string): Promise<string>;
+  abstract getUserIdByCameraId(cameraId: string): Promise<string | null>;
   abstract createLocation(data: CreateLocationRequest): Promise<LocationEntity>;
   abstract getCameraByNameAndLocation(
     data: GetCameraByNameAndLocation,

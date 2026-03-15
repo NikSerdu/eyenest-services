@@ -15,7 +15,7 @@ import {
 @Injectable()
 export class CameraRepository implements ICameraRepository {
   constructor(private readonly prisma: PrismaService) {}
-  async getUserIdByCameraId(cameraId: string): Promise<string> {
+  async getUserIdByCameraId(cameraId: string): Promise<string | null> {
     const camera = await this.prisma.camera.findUnique({
       where: {
         id: cameraId,
@@ -28,7 +28,7 @@ export class CameraRepository implements ICameraRepository {
         },
       },
     });
-    return camera?.location?.userId ?? '';
+    return camera?.location?.userId ?? null;
   }
   async getLocationsByUserId(userId: string): Promise<LocationWithCameras[]> {
     return await this.prisma.location.findMany({
