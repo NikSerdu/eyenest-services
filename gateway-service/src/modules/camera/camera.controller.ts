@@ -5,11 +5,13 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
 } from '@nestjs/common';
 import { ApiOperation, ApiOkResponse, ApiCookieAuth } from '@nestjs/swagger';
 import {
   AddCameraResponse,
+  GetCameraIdByAccessTokenResponse,
   GetLinkCameraTokenResponse,
   LinkCameraResponse,
   LocationResponse,
@@ -21,7 +23,7 @@ import {
   LinkCameraRequest,
   GetLinkCameraTokenRequest,
 } from './dto/requests/cameras.req';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { CameraClientGrpc } from '@/core/grpc-clients/camera.grpc';
 
@@ -142,5 +144,55 @@ export class CameraController {
       cameraId: body.cameraId,
       userId,
     });
+  }
+
+  @ApiOperation({
+    summary: 'Refresh access token for camera',
+    description: 'Renews access token using refresh token from cookies',
+  })
+  @ApiOkResponse({
+    type: LinkCameraResponse,
+  })
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  public async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const refreshToken = req.cookies?.refreshToken;
+
+    const { accessToken, refreshToken: newRefreshToken } =
+      await this.camera.call('refresh', { refreshToken });
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
+      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    res.cookie('refreshToken', newRefreshToken, {
+      httpOnly: true,
+      secure: this.config.get('NODE_ENV') !== 'development',
+      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    return { accessToken };
+  }
+
+  @ApiOperation({
+    summary: 'Get camera id by access token',
+  })
+  @ApiOkResponse({
+    type: GetCameraIdByAccessTokenResponse,
+  })
+  @Auth('camera')
+  @HttpCode(HttpStatus.OK)
+  @Get('getCameraIdByAccessToken')
+  async getCameraIdByAccessToken(@Current('camera') cameraId: string) {
+    return { cameraId };
   }
 }

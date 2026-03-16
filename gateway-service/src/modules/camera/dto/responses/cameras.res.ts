@@ -29,7 +29,7 @@ export class LocationResponse {
   @ApiProperty()
   userId: string;
 
-  @ApiProperty({ type: [CameraResponse] })
+  @ApiProperty({ type: [CameraResponse], nullable: true })
   cameras: CameraResponse[];
 }
 
@@ -46,4 +46,9 @@ export class LinkCameraResponse {
 export class GetLinkCameraTokenResponse {
   @ApiProperty()
   token: string;
+}
+
+export class GetCameraIdByAccessTokenResponse {
+  @ApiProperty()
+  cameraId: string;
 }

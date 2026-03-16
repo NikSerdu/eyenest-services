@@ -22,7 +22,6 @@ export class LiveKitController {
   })
   @ApiOkResponse({
     type: GetLiveKitViewerTokenResponseDto,
-    isArray: true,
   })
   @ApiQuery({
     name: 'roomId',
@@ -47,8 +46,7 @@ export class LiveKitController {
     summary: 'Get live kit viewer token',
   })
   @ApiOkResponse({
-    type: GetLiveKitViewerTokenResponseDto,
-    isArray: true,
+    type: GetLiveKitCameraTokenResponse,
   })
   @ApiQuery({
     name: 'roomId',
