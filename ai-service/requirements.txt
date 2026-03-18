@@ -1,0 +1,5 @@
+livekit-agents
+livekit-api
+opencv-python
+numpy
+python-dotenv
