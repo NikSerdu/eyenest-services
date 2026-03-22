@@ -72,7 +72,6 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const { accessToken, refreshToken } = await this.auth.call('login', body);
-    console.log(accessToken, refreshToken);
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -102,7 +101,6 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const refreshToken = req.cookies?.refreshToken;
-    console.log(refreshToken);
 
     const { accessToken, refreshToken: newRefreshToken } = await this.auth.call(
       'refresh',
@@ -163,8 +161,6 @@ export class AuthController {
   @Auth('user')
   @Get('getUser')
   async getUser(@Current('user') userId: string) {
-    console.log(userId);
-
     return await this.auth.call('getUserById', { userId });
   }
 }

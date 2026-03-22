@@ -7,15 +7,22 @@ import type {
   GetCameraUserIdByCameraIdRequest,
   LinkCameraRequest,
   RefreshRequest,
+  UpdateCameraSettingsRequest,
+  GetCameraByIdRequest,
 } from '@eyenest/contracts/gen/ts/camera';
 import { Controller } from '@nestjs/common';
-import { GrpcMethod } from '@nestjs/microservices';
+import { EventPattern, GrpcMethod } from '@nestjs/microservices';
 import { CreateLocationUseCase } from '@/application/useCases/camera/createLocation.useCase';
 import { AddCameraUseCase } from '@/application/useCases/camera/addCamera.useCase';
 import { LinkCameraUseCase } from '@/application/useCases/camera/linkCamera.useCase';
 import { RefreshUseCase } from '@/application/useCases/camera/refresh.useCase';
 import { GetLinkCameraTokenUseCase } from '@/application/useCases/camera/getLinkCameraToken.useCase';
 import { GetCameraUserIdUseCase } from '@/application/useCases/camera/getCameraUserId.useCase';
+import { UpdateCameraSettingsUseCase } from '@/application/useCases/camera/updateCameraSettings.useCase';
+import { GetCameraByIdUseCase } from '@/application/useCases/camera/getCameraById.useCase';
+import { type EventPayload, Events } from '@eyenest/common';
+import { CameraJoinUseCase } from '@/application/useCases/camera/cameraJoin.useCase';
+import { CameraLeaveUseCase } from '@/application/useCases/camera/cameraLeave.useCase';
 
 @Controller('camera')
 export class CameraController {
@@ -27,6 +34,10 @@ export class CameraController {
     private readonly refreshUseCase: RefreshUseCase,
     private readonly getLinkCameraTokenUseCase: GetLinkCameraTokenUseCase,
     private readonly getCameraUserIdUseCase: GetCameraUserIdUseCase,
+    private readonly updateCameraSettingsUseCase: UpdateCameraSettingsUseCase,
+    private readonly getCameraByIdUseCase: GetCameraByIdUseCase,
+    private readonly cameraJoinUseCase: CameraJoinUseCase,
+    private readonly cameraLeaveUseCase: CameraLeaveUseCase,
   ) {}
 
   @GrpcMethod('CameraService', 'GetLocationsByUserId')
@@ -62,5 +73,27 @@ export class CameraController {
   @GrpcMethod('CameraService', 'GetCameraUserIdByCameraId')
   async getCameraUserIdByCameraId(data: GetCameraUserIdByCameraIdRequest) {
     return await this.getCameraUserIdUseCase.execute(data);
+  }
+
+  @GrpcMethod('CameraService', 'UpdateCameraSettings')
+  async updateCameraSettings(data: UpdateCameraSettingsRequest) {
+    return await this.updateCameraSettingsUseCase.execute(data);
+  }
+
+  @GrpcMethod('CameraService', 'GetCameraById')
+  async getCameraById(data: GetCameraByIdRequest) {
+    return await this.getCameraByIdUseCase.execute(data);
+  }
+
+  @EventPattern(Events.CAMERA_JOIN)
+  async cameraJoin(data: EventPayload<Events.CAMERA_JOIN>) {
+    console.log('cameraJoin', data);
+    return await this.cameraJoinUseCase.execute(data);
+  }
+
+  @EventPattern(Events.CAMERA_LEAVE)
+  async cameraLeave(data: EventPayload<Events.CAMERA_LEAVE>) {
+    console.log('cameraLeave', data);
+    return await this.cameraLeaveUseCase.execute(data);
   }
 }

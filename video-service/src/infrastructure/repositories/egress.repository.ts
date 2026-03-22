@@ -6,8 +6,6 @@ import { PrismaService } from '../prisma/prisma.service';
 export class EgressRepository implements IEgressRepository {
   constructor(private readonly prisma: PrismaService) {}
   async addEgress(data: Omit<EgressEntity, 'id'>) {
-    console.log(data);
-
     return await this.prisma.egress.create({
       data,
     });

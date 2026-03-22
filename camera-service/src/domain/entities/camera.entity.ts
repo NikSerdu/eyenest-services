@@ -7,12 +7,15 @@ export class LocationEntity {
 export class CameraEntity {
   id: string;
   name: string;
+  locationId: string;
   cameraSettings: CameraSettingsEntity | null;
 }
 
 export class CameraSettingsEntity {
   id: string;
   aiStatus: Status;
+  recordingStatus: Status;
+  cameraId: string;
 }
 
 export const Status = {

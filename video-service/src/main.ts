@@ -16,8 +16,11 @@ async function bootstrap() {
     transport: Transport.RMQ,
     options: {
       urls: [config.getOrThrow<string>('RMQ_URL')],
-      queue: 'events_queue',
+      queue: config.getOrThrow<string>('RMQ_VIDEO_QUEUE'),
       queueOptions: { durable: true },
+      exchange: config.getOrThrow<string>('RMQ_EVENTS_EXCHANGE'),
+      exchangeType: 'topic',
+      wildcards: true,
     },
   });
   await app.startAllMicroservices();

@@ -1,8 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TrackType, WebhookEvent, WebhookReceiver } from 'livekit-server-sdk';
 import { Request } from 'express';
-import { ClientProxy } from '@nestjs/microservices';
+import { Events, TypedEventEmitter } from '@eyenest/common';
 
 type RawBodyRequest = Request & {
   rawBody?: Buffer | string;
@@ -14,7 +14,7 @@ export class WebhookService {
 
   constructor(
     private readonly configService: ConfigService,
-    @Inject('RMQ_CLIENT') private readonly rmqClient: ClientProxy,
+    private readonly emitter: TypedEventEmitter,
   ) {
     this.receiver = new WebhookReceiver(
       this.configService.getOrThrow<string>('LIVEKIT_WEBHOOK_KEY'),
@@ -34,12 +34,12 @@ export class WebhookService {
       event.track?.type === TrackType.VIDEO
     ) {
       if (eventType === 'track_published') {
-        this.rmqClient.emit('camera.start-recording', {
-          roomId: event.room?.name,
+        this.emitter.emit(Events.CAMERA_JOIN, {
+          cameraId: event.room?.name ?? '',
         });
       } else if (eventType === 'track_unpublished') {
-        this.rmqClient.emit('camera.stop-recording', {
-          roomId: event.room?.name,
+        this.emitter.emit(Events.CAMERA_LEAVE, {
+          cameraId: event.room?.name ?? '',
         });
       }
     }

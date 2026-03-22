@@ -15,9 +15,15 @@ import { AddCameraUseCase } from '@/application/useCases/camera/addCamera.useCas
 import { RefreshUseCase } from '@/application/useCases/camera/refresh.useCase';
 import { GetLinkCameraTokenUseCase } from '@/application/useCases/camera/getLinkCameraToken.useCase';
 import { GetCameraUserIdUseCase } from '@/application/useCases/camera/getCameraUserId.useCase';
+import { UpdateCameraSettingsUseCase } from '@/application/useCases/camera/updateCameraSettings.useCase';
+import { GetCameraByIdUseCase } from '@/application/useCases/camera/getCameraById.useCase';
+import { CameraJoinUseCase } from '@/application/useCases/camera/cameraJoin.useCase';
+import { CameraLeaveUseCase } from '@/application/useCases/camera/cameraLeave.useCase';
+import { EventEmitterModule } from '@eyenest/common';
 
 @Module({
   imports: [
+    EventEmitterModule.register('RMQ_CLIENT'),
     ClientsModule.registerAsync([
       {
         name: 'AUTH_PACKAGE',
@@ -51,6 +57,10 @@ import { GetCameraUserIdUseCase } from '@/application/useCases/camera/getCameraU
     RefreshUseCase,
     GetLinkCameraTokenUseCase,
     GetCameraUserIdUseCase,
+    UpdateCameraSettingsUseCase,
+    GetCameraByIdUseCase,
+    CameraJoinUseCase,
+    CameraLeaveUseCase,
   ],
 })
 export class CameraModule {}

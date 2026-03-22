@@ -1,6 +1,5 @@
 import { ICameraRepository } from '@/domain';
 import { AuthClientGrpc } from '@/presentation/camera/auth.grpc';
-import { mapStatus } from '@/shared';
 import { RpcStatus } from '@eyenest/common';
 import {
   GetLocationsByUserIdRequest,
@@ -21,7 +20,6 @@ export class GetLocationsByUserIdUseCase {
     data: GetLocationsByUserIdRequest,
   ): Promise<GetLocationsByUserIdResponse> {
     const isUserExists = await lastValueFrom(this.auth.getById(data));
-    console.log(isUserExists);
 
     if (!isUserExists) {
       throw new RpcException({
@@ -41,10 +39,12 @@ export class GetLocationsByUserIdUseCase {
         cameras: location.cameras.map((camera) => ({
           id: camera.id,
           name: camera.name,
+          locationId: camera.locationId,
           cameraSettings: camera.cameraSettings
             ? {
                 id: camera.cameraSettings.id,
-                aiStatus: mapStatus(camera.cameraSettings.aiStatus),
+                aiStatus: camera.cameraSettings.aiStatus,
+                recordingStatus: camera.cameraSettings.recordingStatus,
               }
             : undefined,
         })),

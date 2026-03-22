@@ -8,7 +8,12 @@ import { RedisService } from '../redis/redis.service';
 import { randomBytes } from 'node:crypto';
 import { JwtService } from '@nestjs/jwt';
 import { RpcException } from '@nestjs/microservices';
-import { RpcStatus } from '@eyenest/common';
+import {
+  EventPayload,
+  RmqEventMap,
+  RpcStatus,
+  TypedEventEmitter,
+} from '@eyenest/common';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { ITokenVerify } from '@/shared/types/jwt.interface';
@@ -19,6 +24,7 @@ export class CameraService implements ICameraService {
     private readonly redis: RedisService,
     private readonly jwt: JwtService,
     private readonly config: ConfigService,
+    private readonly emitter: TypedEventEmitter,
   ) {}
   async getCameraTempToken(
     data: Omit<AddCameraRequest, 'userId'>,
@@ -84,5 +90,25 @@ export class CameraService implements ICameraService {
         cameraId: null,
       };
     }
+  }
+  async emitEvent<T extends keyof RmqEventMap>(
+    event: T,
+    data: EventPayload<T>,
+  ): Promise<void> {
+    this.emitter.emit(event, data);
+  }
+  async checkCameraOnline(cameraId: string): Promise<boolean> {
+    const isCameraOnline = Boolean(
+      await this.redis.get(`camera:online:${cameraId}`),
+    );
+    return isCameraOnline;
+  }
+
+  async setCameraOnline(cameraId: string): Promise<void> {
+    await this.redis.set(`camera:online:${cameraId}`, 'true', 'EX', 300);
+  }
+
+  async setCameraOffline(cameraId: string): Promise<void> {
+    await this.redis.del(`camera:online:${cameraId}`);
   }
 }

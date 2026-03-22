@@ -32,7 +32,6 @@ export class GrpcExceptionFilter implements ExceptionFilter {
         message: exception.message,
       });
     }
-    console.log(exception);
 
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,

@@ -6,6 +6,12 @@ export class CameraSettingsResponse {
 
   @ApiProperty({ enum: ['ON', 'OFF'] })
   aiStatus: string;
+
+  @ApiProperty({ enum: ['ON', 'OFF'] })
+  recordingStatus: string;
+
+  @ApiProperty()
+  cameraId: string;
 }
 
 export class CameraResponse {
@@ -14,6 +20,9 @@ export class CameraResponse {
 
   @ApiProperty()
   name: string;
+
+  @ApiProperty()
+  locationId: string;
 
   @ApiProperty({ type: CameraSettingsResponse, nullable: true })
   cameraSettings: CameraSettingsResponse | null;

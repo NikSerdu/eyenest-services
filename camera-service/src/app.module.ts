@@ -6,6 +6,7 @@ import { RedisModule } from './infrastructure/redis/redis.module';
 import { JwtModule } from '@nestjs/jwt';
 import { getJwtConfig } from './shared';
 import { VideoModule } from './presentation/video/video.module';
+import { RmqModule } from './infrastructure/rmq/rmq.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,6 +27,7 @@ import { VideoModule } from './presentation/video/video.module';
     CameraModule,
     RedisModule,
     VideoModule,
+    RmqModule,
   ],
 })
 export class AppModule {}

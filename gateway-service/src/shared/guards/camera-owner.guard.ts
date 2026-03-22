@@ -30,7 +30,6 @@ export class CameraOwnerGuard implements CanActivate {
     const response = await this.cameraClient.call('getCameraUserIdByCameraId', {
       cameraId,
     });
-    console.log(response);
 
     if (!response || response.userId !== user.id) {
       throw new ForbiddenException('Вы не являетесь владельцем этой камеры');

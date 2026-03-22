@@ -42,8 +42,6 @@ export class StartRecordingUseCase {
         egressId: egress.egressId,
       };
     } catch (error) {
-      console.log(error);
-
       throw new RpcException({
         code: RpcStatus.INTERNAL,
         details: 'Ошибка при запуске записи',

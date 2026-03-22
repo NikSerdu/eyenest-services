@@ -1,6 +1,7 @@
 import {
   CameraEntity,
   CameraEntityWithLocation,
+  CameraSettingsEntity,
   ICameraRepository,
   LocationEntity,
 } from '@/domain';
@@ -103,13 +104,32 @@ export class CameraRepository implements ICameraRepository {
       },
     });
   }
-  async getCameraById(id: string): Promise<CameraEntityWithLocation | null> {
+  async getCameraWithLocationById(
+    id: string,
+  ): Promise<CameraEntityWithLocation | null> {
     return await this.prisma.camera.findUnique({
       where: { id },
       include: {
         cameraSettings: true,
         location: true,
       },
+    });
+  }
+  async getCameraById(id: string): Promise<CameraEntity | null> {
+    return await this.prisma.camera.findUnique({
+      where: { id },
+      include: {
+        cameraSettings: true,
+      },
+    });
+  }
+  async updateCameraSettings(
+    cameraId: string,
+    data: Omit<CameraSettingsEntity, 'id'>,
+  ): Promise<CameraSettingsEntity> {
+    return await this.prisma.cameraSettings.update({
+      where: { cameraId: cameraId },
+      data,
     });
   }
 }

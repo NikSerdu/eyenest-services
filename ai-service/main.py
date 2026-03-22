@@ -10,6 +10,7 @@ from livekit.agents import AgentServer, JobContext, cli
 
 from config import settings
 from motion_detector import MotionDetector
+from rmq_motion import publish_motion_event
 
 
 logger = logging.getLogger("motion-agent")
@@ -71,6 +72,15 @@ async def process_video_track(
 
             if motion_event is None:
                 continue
+
+            # Notify backend services about motion.
+            # For now we only publish cameraId to RabbitMQ.
+            asyncio.create_task(
+                publish_motion_event(
+                    settings.motion_detected_routing_key,
+                    {"cameraId": room_name},
+                ),
+            )
 
             logger.info(
                 "motion_detected room=%s participant=%s ts=%s contour_area=%.2f changed_pixels=%s",

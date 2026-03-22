@@ -3,3 +3,4 @@ livekit-api
 opencv-python
 numpy
 python-dotenv
+aio-pika

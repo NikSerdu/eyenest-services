@@ -19,11 +19,8 @@ export class StopRecordingUseCase {
   async execute(data: StopRecordingRequest): Promise<StopRecordingResponse> {
     try {
       const egress = await this.egressRepository.getEgress(data.roomId);
-      console.log(egress);
 
       if (!egress) {
-        console.log('Запись уже закончена');
-
         throw new RpcException({
           code: RpcStatus.NOT_FOUND,
           details: 'Запись уже закончена',

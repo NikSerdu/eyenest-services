@@ -5,12 +5,15 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   Req,
   Res,
 } from '@nestjs/common';
 import { ApiOperation, ApiOkResponse, ApiCookieAuth } from '@nestjs/swagger';
 import {
   AddCameraResponse,
+  CameraResponse,
+  CameraSettingsResponse,
   GetCameraIdByAccessTokenResponse,
   GetLinkCameraTokenResponse,
   LinkCameraResponse,
@@ -22,6 +25,8 @@ import {
   CreateLocationRequest,
   LinkCameraRequest,
   GetLinkCameraTokenRequest,
+  UpdateCameraSettingsRequest,
+  GetCameraByIdRequest,
 } from './dto/requests/cameras.req';
 import type { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -194,5 +199,32 @@ export class CameraController {
   @Get('getCameraIdByAccessToken')
   async getCameraIdByAccessToken(@Current('camera') cameraId: string) {
     return { cameraId };
+  }
+
+  @ApiOperation({
+    summary: 'Update camera settings',
+  })
+  @ApiOkResponse({
+    type: CameraSettingsResponse,
+  })
+  @CameraOwner()
+  @HttpCode(HttpStatus.OK)
+  @Post('updateCameraSettings')
+  async updateCameraSettings(@Body() body: UpdateCameraSettingsRequest) {
+    const res = await this.camera.call('updateCameraSettings', body);
+    return res.cameraSettings ? res.cameraSettings : null;
+  }
+
+  @ApiOperation({
+    summary: 'Get camera by id',
+  })
+  @ApiOkResponse({
+    type: CameraResponse,
+  })
+  @HttpCode(HttpStatus.OK)
+  @Get('getCameraById')
+  async getCameraById(@Query() query: GetCameraByIdRequest) {
+    const camera = await this.camera.call('getCameraById', query);
+    return camera.camera ? camera.camera : null;
   }
 }

@@ -15,8 +15,8 @@ importers:
         specifier: ^3.1011.0
         version: 3.1011.0
       '@eyenest/common':
-        specifier: ^1.0.2
-        version: 1.0.2(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        specifier: ^1.2.5
+        version: 1.2.5(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
       '@eyenest/contracts':
         specifier: ^1.5.4
         version: 1.5.4(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
@@ -600,8 +600,8 @@ packages:
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eyenest/common@1.0.2':
-    resolution: {integrity: sha512-3Szmy6w+H8wWJX+N3eAS7lIMFMNW1ZUryYWwII1BzYRv6dmw+bl6GDty7aUT5L8suJbd6ylclEII6Rt81601rg==}
+  '@eyenest/common@1.2.5':
+    resolution: {integrity: sha512-hmXKiacjx8Rpgk0KeW/8DkUxMblXxI98RAeorvn/rhpELqDqaEZXCX4le/KnsYBN/cUnYXBC+SjVeGANssT+9Q==}
 
   '@eyenest/contracts@1.5.4':
     resolution: {integrity: sha512-o62Hnkjv22NoP1kxG2EijON+egEtzZV7/UOFN7T5QsV3I3xKx69zZn4bujbxtaRGRrF7Sj00qnv5fnNJ4ElW1g==}
@@ -4835,12 +4835,13 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@eyenest/common@1.0.2(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
+  '@eyenest/common@1.2.5(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)':
     dependencies:
       '@eyenest/contracts': 1.5.4(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
       '@nestjs/common': 11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/config': 4.0.2(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@nestjs/microservices': 11.1.11(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@nestjs/core'
@@ -4855,7 +4856,6 @@ snapshots:
       - mqtt
       - nats
       - reflect-metadata
-      - rxjs
       - supports-color
 
   '@eyenest/contracts@1.5.4(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)':

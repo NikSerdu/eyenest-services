@@ -18,7 +18,9 @@ export class GetLinkCameraTokenUseCase {
   async execute(
     data: GetLinkCameraTokenRequest,
   ): Promise<GetLinkCameraTokenResponse> {
-    const camera = await this.cameraRepository.getCameraById(data.cameraId);
+    const camera = await this.cameraRepository.getCameraWithLocationById(
+      data.cameraId,
+    );
     if (!camera) {
       throw new RpcException({
         code: RpcStatus.NOT_FOUND,

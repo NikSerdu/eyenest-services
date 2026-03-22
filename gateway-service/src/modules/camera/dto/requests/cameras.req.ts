@@ -33,3 +33,27 @@ export class GetLinkCameraTokenRequest {
   @IsNotEmpty()
   cameraId: string;
 }
+
+export class UpdateCameraSettingsRequest {
+  @ApiProperty({ enum: ['ON', 'OFF'] })
+  @IsString()
+  @IsNotEmpty()
+  aiStatus: string;
+
+  @ApiProperty({ enum: ['ON', 'OFF'] })
+  @IsString()
+  @IsNotEmpty()
+  recordingStatus: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  cameraId: string;
+}
+
+export class GetCameraByIdRequest {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  cameraId: string;
+}

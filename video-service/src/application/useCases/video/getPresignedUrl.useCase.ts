@@ -37,7 +37,6 @@ export class GetPresignedUrlUseCase {
         ? file.playlistName
         : this.getLivePlaylistName(file.playlistName);
     const url = await this.s3Service.getPresignedUrl(fileName);
-    console.log(data, url);
 
     return {
       url,

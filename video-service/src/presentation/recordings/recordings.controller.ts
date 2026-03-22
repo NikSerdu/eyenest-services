@@ -1,7 +1,5 @@
 import type {
-  StartRecordingRequest,
   StartRecordingResponse,
-  StopRecordingRequest,
   StopRecordingResponse,
   GetAllRecordingsRequest,
   GetAllRecordingsResponse,
@@ -14,6 +12,7 @@ import { EventPattern, GrpcMethod, Payload } from '@nestjs/microservices';
 import { StopRecordingUseCase } from '@/application/useCases/egress/stopRecording.useCase';
 import { GetAllRecordingUseCase } from '@/application/useCases/video/getAllRecordings.useCase';
 import { GetPresignedUrlUseCase } from '@/application/useCases/video/getPresignedUrl.useCase';
+import { Events, type EventPayload } from '@eyenest/common';
 
 @Controller('recordings')
 export class RecordingsController {
@@ -24,20 +23,20 @@ export class RecordingsController {
     private readonly getPresignedUrlUseCase: GetPresignedUrlUseCase,
   ) {}
 
-  @EventPattern('camera.start-recording')
+  @EventPattern(Events.CAMERA_START_RECORDING)
   async startRecording(
-    @Payload() data: StartRecordingRequest,
+    @Payload() data: EventPayload<Events.CAMERA_START_RECORDING>,
   ): Promise<StartRecordingResponse> {
-    console.log('старт');
-
-    return await this.startRecordingUseCase.execute(data);
+    console.log('startRecording', data);
+    return await this.startRecordingUseCase.execute({ roomId: data.cameraId });
   }
 
-  @EventPattern('camera.stop-recording')
+  @EventPattern(Events.CAMERA_STOP_RECORDING)
   async stopRecording(
-    @Payload() data: StopRecordingRequest,
+    @Payload() data: EventPayload<Events.CAMERA_STOP_RECORDING>,
   ): Promise<StopRecordingResponse> {
-    return await this.stopRecordingUseCase.execute(data);
+    console.log('stopRecording', data);
+    return await this.stopRecordingUseCase.execute({ roomId: data.cameraId });
   }
 
   @GrpcMethod('VideoService', 'GetAllRecordings')

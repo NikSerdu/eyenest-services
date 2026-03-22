@@ -13,7 +13,7 @@ import { Global } from '@nestjs/common';
           transport: Transport.RMQ,
           options: {
             urls: [config.getOrThrow<string>('RMQ_URL')],
-            queue: config.getOrThrow<string>('RMQ_GATEWAY_QUEUE'),
+            queue: config.getOrThrow<string>('RMQ_CAMERA_QUEUE'),
             queueOptions: { durable: true },
             exchange: config.getOrThrow<string>('RMQ_EVENTS_EXCHANGE'),
             exchangeType: 'topic',
