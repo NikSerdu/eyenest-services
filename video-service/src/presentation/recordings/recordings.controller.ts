@@ -5,6 +5,8 @@ import type {
   GetAllRecordingsResponse,
   GetPresignedUrlResponse,
   GetPresignedUrlRequest,
+  DeleteRecordingRequest,
+  DeleteRecordingResponse,
 } from '@eyenest/contracts/gen/ts/video';
 import { StartRecordingUseCase } from '@/application/useCases/egress/startRecording.useCase';
 import { Controller } from '@nestjs/common';
@@ -13,6 +15,9 @@ import { StopRecordingUseCase } from '@/application/useCases/egress/stopRecordin
 import { GetAllRecordingUseCase } from '@/application/useCases/video/getAllRecordings.useCase';
 import { GetPresignedUrlUseCase } from '@/application/useCases/video/getPresignedUrl.useCase';
 import { Events, type EventPayload } from '@eyenest/common';
+import { DeleteRecordingUseCase } from '@/application/useCases/video/deleteRecording.useCase';
+import { DeleteRecordingsByCameraIdUseCase } from '@/application/useCases/video/deleteRecordingsByCameraId.useCase';
+import { BatchPayload } from '@prisma/generated/internal/prismaNamespace';
 
 @Controller('recordings')
 export class RecordingsController {
@@ -21,13 +26,14 @@ export class RecordingsController {
     private readonly stopRecordingUseCase: StopRecordingUseCase,
     private readonly getAllRecordingsUseCase: GetAllRecordingUseCase,
     private readonly getPresignedUrlUseCase: GetPresignedUrlUseCase,
+    private readonly deleteRecordingUseCase: DeleteRecordingUseCase,
+    private readonly deleteRecordingsByCameraIdUseCase: DeleteRecordingsByCameraIdUseCase,
   ) {}
 
   @EventPattern(Events.CAMERA_START_RECORDING)
   async startRecording(
     @Payload() data: EventPayload<Events.CAMERA_START_RECORDING>,
   ): Promise<StartRecordingResponse> {
-    console.log('startRecording', data);
     return await this.startRecordingUseCase.execute({ roomId: data.cameraId });
   }
 
@@ -35,8 +41,21 @@ export class RecordingsController {
   async stopRecording(
     @Payload() data: EventPayload<Events.CAMERA_STOP_RECORDING>,
   ): Promise<StopRecordingResponse> {
-    console.log('stopRecording', data);
     return await this.stopRecordingUseCase.execute({ roomId: data.cameraId });
+  }
+
+  @EventPattern(Events.CAMERA_DELETE)
+  async deleteRecordingsByCameraId(
+    @Payload() data: EventPayload<Events.CAMERA_DELETE>,
+  ): Promise<BatchPayload> {
+    return await this.deleteRecordingsByCameraIdUseCase.execute(data.cameraId);
+  }
+
+  @GrpcMethod('VideoService', 'DeleteRecording')
+  async deleteRecording(
+    data: DeleteRecordingRequest,
+  ): Promise<DeleteRecordingResponse> {
+    return await this.deleteRecordingUseCase.execute(data);
   }
 
   @GrpcMethod('VideoService', 'GetAllRecordings')

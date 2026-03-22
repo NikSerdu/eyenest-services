@@ -1,6 +1,6 @@
 import { IEgressRepository } from '@/domain';
 import { IVideoRepository } from '@/domain/repositories/video.repository';
-import { IVideoService } from '@/domain/services';
+import { ICameraService, IVideoService } from '@/domain/services';
 import type {
   StartRecordingRequest,
   StartRecordingResponse,
@@ -15,10 +15,21 @@ export class StartRecordingUseCase {
     private readonly egressRepository: IEgressRepository,
     private readonly videoRepository: IVideoRepository,
     private readonly videoService: IVideoService,
+    private readonly cameraService: ICameraService,
   ) {}
 
   async execute(data: StartRecordingRequest): Promise<StartRecordingResponse> {
     try {
+      const isCameraOnline = await this.cameraService.checkCameraOnline(
+        data.roomId,
+      );
+      if (!isCameraOnline) {
+        console.log('Камера не в сети');
+        throw new RpcException({
+          code: RpcStatus.CANCELLED,
+          details: 'Камера не в сети',
+        });
+      }
       const isAlreadyRecording = await this.egressRepository.getEgress(
         data.roomId,
       );

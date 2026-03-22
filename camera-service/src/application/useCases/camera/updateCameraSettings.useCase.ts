@@ -30,29 +30,27 @@ export class UpdateCameraSettingsUseCase {
       });
     }
     const currentSettings = camera.cameraSettings;
-    if (isCameraOnline) {
-      if (currentSettings?.aiStatus === Status.ON && aiStatus === Status.OFF) {
-        await this.cameraService.emitEvent(Events.MOTION_OFF, { cameraId });
-      }
-      if (currentSettings?.aiStatus === Status.OFF && aiStatus === Status.ON) {
-        await this.cameraService.emitEvent(Events.MOTION_ON, { cameraId });
-      }
-      if (
-        currentSettings?.recordingStatus === Status.ON &&
-        recordingStatus === Status.OFF
-      ) {
-        await this.cameraService.emitEvent(Events.CAMERA_STOP_RECORDING, {
-          cameraId,
-        });
-      }
-      if (
-        currentSettings?.recordingStatus === Status.OFF &&
-        recordingStatus === Status.ON
-      ) {
-        await this.cameraService.emitEvent(Events.CAMERA_START_RECORDING, {
-          cameraId,
-        });
-      }
+    if (currentSettings?.aiStatus === Status.ON && aiStatus === Status.OFF) {
+      await this.cameraService.emitEvent(Events.MOTION_OFF, { cameraId });
+    }
+    if (currentSettings?.aiStatus === Status.OFF && aiStatus === Status.ON) {
+      await this.cameraService.emitEvent(Events.MOTION_ON, { cameraId });
+    }
+    if (
+      currentSettings?.recordingStatus === Status.ON &&
+      recordingStatus === Status.OFF
+    ) {
+      await this.cameraService.emitEvent(Events.CAMERA_STOP_RECORDING, {
+        cameraId,
+      });
+    }
+    if (
+      currentSettings?.recordingStatus === Status.OFF &&
+      recordingStatus === Status.ON
+    ) {
+      await this.cameraService.emitEvent(Events.CAMERA_START_RECORDING, {
+        cameraId,
+      });
     }
 
     const cameraSettings = await this.cameraRepository.updateCameraSettings(

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class GetAllRecordingsResponse {
+export class RecordingResponse {
   @ApiProperty()
   id: string;
   @ApiProperty()

@@ -20,6 +20,8 @@ import { GetCameraByIdUseCase } from '@/application/useCases/camera/getCameraByI
 import { CameraJoinUseCase } from '@/application/useCases/camera/cameraJoin.useCase';
 import { CameraLeaveUseCase } from '@/application/useCases/camera/cameraLeave.useCase';
 import { EventEmitterModule } from '@eyenest/common';
+import { DeleteCameraUseCase } from '@/application/useCases/camera/deleteCamera.useCase.';
+import { DeleteLocationUseCase } from '@/application/useCases/camera/deleteLocation.useCase';
 
 @Module({
   imports: [
@@ -61,6 +63,8 @@ import { EventEmitterModule } from '@eyenest/common';
     GetCameraByIdUseCase,
     CameraJoinUseCase,
     CameraLeaveUseCase,
+    DeleteCameraUseCase,
+    DeleteLocationUseCase,
   ],
 })
 export class CameraModule {}

@@ -47,4 +47,19 @@ export class VideoRepository implements IVideoRepository {
       },
     });
   }
+
+  async deleteVideoFile(fileId: string) {
+    return await this.prisma.videoFile.delete({
+      where: {
+        id: fileId,
+      },
+    });
+  }
+  async deleteVideoFilesByCameraId(cameraId: string) {
+    return await this.prisma.videoFile.deleteMany({
+      where: {
+        cameraId,
+      },
+    });
+  }
 }

@@ -9,6 +9,7 @@ import { CameraModule } from '@/modules/camera/camera.module';
 import { LiveKitModule } from '@/modules/live_kit/live_kit.module';
 import { RmqModule } from './modules/rmq/rmq.module';
 import { VideoModule } from '@/modules/video/video.module';
+import { EventsModule } from '@/modules/events/events.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { VideoModule } from '@/modules/video/video.module';
     CameraModule,
     VideoModule,
     LiveKitModule,
+    EventsModule,
     RmqModule,
   ],
   controllers: [AppController],

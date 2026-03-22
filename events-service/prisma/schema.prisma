@@ -1,0 +1,32 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "./generated"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Event {
+  id String @id @default(nanoid())
+
+  cameraId String @map("camera_id")
+  userId   String @map("user_id")
+
+  eventType EventType @map("event_type")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("events")
+}
+
+enum EventType {
+  CAMERA_JOIN
+  CAMERA_LEAVE
+  START_RECORDING
+  STOP_RECORDING
+  MOTION_DETECTED
+  MOTION_ON
+  MOTION_OFF
+}

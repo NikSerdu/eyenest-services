@@ -9,6 +9,8 @@ import type {
   RefreshRequest,
   UpdateCameraSettingsRequest,
   GetCameraByIdRequest,
+  DeleteCameraRequest,
+  DeleteLocationRequest,
 } from '@eyenest/contracts/gen/ts/camera';
 import { Controller } from '@nestjs/common';
 import { EventPattern, GrpcMethod } from '@nestjs/microservices';
@@ -23,6 +25,8 @@ import { GetCameraByIdUseCase } from '@/application/useCases/camera/getCameraByI
 import { type EventPayload, Events } from '@eyenest/common';
 import { CameraJoinUseCase } from '@/application/useCases/camera/cameraJoin.useCase';
 import { CameraLeaveUseCase } from '@/application/useCases/camera/cameraLeave.useCase';
+import { DeleteCameraUseCase } from '@/application/useCases/camera/deleteCamera.useCase.';
+import { DeleteLocationUseCase } from '@/application/useCases/camera/deleteLocation.useCase';
 
 @Controller('camera')
 export class CameraController {
@@ -38,6 +42,8 @@ export class CameraController {
     private readonly getCameraByIdUseCase: GetCameraByIdUseCase,
     private readonly cameraJoinUseCase: CameraJoinUseCase,
     private readonly cameraLeaveUseCase: CameraLeaveUseCase,
+    private readonly deleteCameraUseCase: DeleteCameraUseCase,
+    private readonly deleteLocationUseCase: DeleteLocationUseCase,
   ) {}
 
   @GrpcMethod('CameraService', 'GetLocationsByUserId')
@@ -85,15 +91,23 @@ export class CameraController {
     return await this.getCameraByIdUseCase.execute(data);
   }
 
+  @GrpcMethod('CameraService', 'DeleteCamera')
+  async deleteCamera(data: DeleteCameraRequest) {
+    return await this.deleteCameraUseCase.execute(data);
+  }
+
+  @GrpcMethod('CameraService', 'DeleteLocation')
+  async deleteLocation(data: DeleteLocationRequest) {
+    return await this.deleteLocationUseCase.execute(data);
+  }
+
   @EventPattern(Events.CAMERA_JOIN)
   async cameraJoin(data: EventPayload<Events.CAMERA_JOIN>) {
-    console.log('cameraJoin', data);
     return await this.cameraJoinUseCase.execute(data);
   }
 
   @EventPattern(Events.CAMERA_LEAVE)
   async cameraLeave(data: EventPayload<Events.CAMERA_LEAVE>) {
-    console.log('cameraLeave', data);
     return await this.cameraLeaveUseCase.execute(data);
   }
 }

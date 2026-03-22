@@ -58,6 +58,28 @@ export class CameraRepository implements ICameraRepository {
     };
   }
 
+  async deleteLocation(locationId: string): Promise<LocationEntity | null> {
+    return await this.prisma.location.delete({
+      where: { id: locationId },
+      include: {
+        cameras: {
+          include: {
+            cameraSettings: true,
+          },
+        },
+      },
+    });
+  }
+
+  async deleteCamera(cameraId: string): Promise<CameraEntity | null> {
+    return await this.prisma.camera.delete({
+      where: { id: cameraId },
+      include: {
+        cameraSettings: true,
+      },
+    });
+  }
+
   async addCamera(
     data: Omit<AddCameraRequest, 'userId'>,
   ): Promise<CameraEntity> {

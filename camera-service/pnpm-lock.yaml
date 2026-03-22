@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@eyenest/common':
-        specifier: ^1.2.5
-        version: 1.2.5(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
+        specifier: ^1.2.8
+        version: 1.2.8(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
       '@eyenest/contracts':
-        specifier: ^1.5.6
-        version: 1.5.6(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
+        specifier: ^1.6.3
+        version: 1.6.3(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
       '@grpc/grpc-js':
         specifier: ^1.14.3
         version: 1.14.3
@@ -427,11 +427,11 @@ packages:
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eyenest/common@1.2.5':
-    resolution: {integrity: sha512-hmXKiacjx8Rpgk0KeW/8DkUxMblXxI98RAeorvn/rhpELqDqaEZXCX4le/KnsYBN/cUnYXBC+SjVeGANssT+9Q==}
+  '@eyenest/common@1.2.8':
+    resolution: {integrity: sha512-a9mEpW9GYB9FnWJOU9ITuMKK9/iRnAOFreaDy43XkbgRLaSHZUpHPqootk8WpzooT3aHDmxZCsJyDRX5WNBrZw==}
 
-  '@eyenest/contracts@1.5.6':
-    resolution: {integrity: sha512-NYwNxLO37VptiCpXUhH15RSk9Qiwi2UyzdRJL8n+TFFlOkt9WsthKViNDd6OsoCjfDUoi+JVy4PXy6pX1T40rQ==}
+  '@eyenest/contracts@1.6.3':
+    resolution: {integrity: sha512-3+uZqh6Bs1+QYCAuzI5SrHn1U48MhuPXiO4Hf0LeHMCoOp5bA/V2Hmg563vpW+52zJlFnZWtkpisrVUm35tMqQ==}
 
   '@grpc/grpc-js@1.14.3':
     resolution: {integrity: sha512-Iq8QQQ/7X3Sac15oB6p0FmUg/klxQvXLeileoqrTRGJYLV+/9tubbr9ipz0GKHjmXVsgFPo/+W+2cA8eNcR+XA==}
@@ -3967,9 +3967,9 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@eyenest/common@1.2.5(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)':
+  '@eyenest/common@1.2.8(@grpc/grpc-js@1.14.3)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)':
     dependencies:
-      '@eyenest/contracts': 1.5.6(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
+      '@eyenest/contracts': 1.6.3(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)
       '@nestjs/common': 11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/config': 4.0.2(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@nestjs/microservices': 11.1.11(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -3990,7 +3990,7 @@ snapshots:
       - reflect-metadata
       - supports-color
 
-  '@eyenest/contracts@1.5.6(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)':
+  '@eyenest/contracts@1.6.3(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)':
     dependencies:
       '@nestjs/microservices': 11.1.11(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0(amqplib@0.10.9))(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       rxjs: 7.8.2

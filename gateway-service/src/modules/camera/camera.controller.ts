@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -27,6 +28,8 @@ import {
   GetLinkCameraTokenRequest,
   UpdateCameraSettingsRequest,
   GetCameraByIdRequest,
+  DeleteCameraRequest,
+  DeleteLocationRequest,
 } from './dto/requests/cameras.req';
 import type { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -226,5 +229,39 @@ export class CameraController {
   async getCameraById(@Query() query: GetCameraByIdRequest) {
     const camera = await this.camera.call('getCameraById', query);
     return camera.camera ? camera.camera : null;
+  }
+
+  @ApiOperation({
+    summary: 'Delete camera',
+  })
+  @ApiOkResponse({
+    type: CameraResponse,
+  })
+  @HttpCode(HttpStatus.OK)
+  @CameraOwner()
+  @Delete('deleteCamera')
+  async deleteCamera(@Body() body: DeleteCameraRequest) {
+    const res = await this.camera.call('deleteCamera', body);
+    return res.camera ? res.camera : null;
+  }
+
+  @ApiOperation({
+    summary: 'Delete location',
+  })
+  @ApiOkResponse({
+    type: LocationResponse,
+  })
+  @HttpCode(HttpStatus.OK)
+  @Auth('user')
+  @Delete('deleteLocation')
+  async deleteLocation(
+    @Body() body: DeleteLocationRequest,
+    @Current('user') userId: string,
+  ) {
+    const res = await this.camera.call('deleteLocation', {
+      locationId: body.locationId,
+      userId,
+    });
+    return res.location ? res.location : null;
   }
 }

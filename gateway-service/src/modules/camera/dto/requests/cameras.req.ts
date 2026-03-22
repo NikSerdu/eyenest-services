@@ -57,3 +57,17 @@ export class GetCameraByIdRequest {
   @IsNotEmpty()
   cameraId: string;
 }
+
+export class DeleteCameraRequest {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  cameraId: string;
+}
+
+export class DeleteLocationRequest {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  locationId: string;
+}

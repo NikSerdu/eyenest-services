@@ -16,6 +16,8 @@ export abstract class ICameraRepository {
   abstract getLocationsByUserId(userId: string): Promise<LocationEntity[]>;
   abstract getUserIdByCameraId(cameraId: string): Promise<string | null>;
   abstract createLocation(data: CreateLocationRequest): Promise<LocationEntity>;
+  abstract deleteLocation(locationId: string): Promise<LocationEntity | null>;
+  abstract deleteCamera(cameraId: string): Promise<CameraEntity | null>;
   abstract getCameraByNameAndLocation(
     data: GetCameraByNameAndLocation,
   ): Promise<CameraEntity | null>;
