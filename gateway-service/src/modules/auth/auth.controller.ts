@@ -5,13 +5,20 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Put,
   Req,
   Res,
 } from '@nestjs/common';
 import { AuthClientGrpc } from './auth.grpc';
 import { RegisterRequest } from './dto/requests/register.req';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { LoginRequest, LoginResponse, RegisterResponse } from './dto';
+import {
+  GetUserNotificationSettingsResponse,
+  LoginRequest,
+  LoginResponse,
+  RegisterResponse,
+  UpdateUserNotificationSettingsRequest,
+} from './dto';
 import type { Response, Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { Auth, Current } from '@/shared';
@@ -150,5 +157,37 @@ export class AuthController {
   @Get('getUser')
   async getUser(@Current('user') userId: string) {
     return await this.auth.call('getUserById', { userId });
+  }
+
+  @ApiOperation({
+    summary: 'Get user notification settings',
+  })
+  @ApiOkResponse({
+    type: GetUserNotificationSettingsResponse,
+  })
+  @HttpCode(HttpStatus.OK)
+  @Auth('user')
+  @Get('getUserNotificationSettings')
+  async getUserNotificationSettings(@Current('user') userId: string) {
+    return await this.auth.call('getUserNotificationSettings', { userId });
+  }
+
+  @ApiOperation({
+    summary: 'Update user notification settings',
+  })
+  @ApiOkResponse({
+    type: GetUserNotificationSettingsResponse,
+  })
+  @HttpCode(HttpStatus.OK)
+  @Auth('user')
+  @Put('updateUserNotificationSettings')
+  async updateUserNotificationSettings(
+    @Current('user') userId: string,
+    @Body() body: UpdateUserNotificationSettingsRequest,
+  ) {
+    return await this.auth.call('updateUserNotificationSettings', {
+      userId,
+      ...body,
+    });
   }
 }

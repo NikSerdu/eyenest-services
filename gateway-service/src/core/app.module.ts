@@ -10,6 +10,7 @@ import { LiveKitModule } from '@/modules/live_kit/live_kit.module';
 import { RmqModule } from './modules/rmq/rmq.module';
 import { VideoModule } from '@/modules/video/video.module';
 import { EventsModule } from '@/modules/events/events.module';
+import { NotificationsModule } from '@/modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { EventsModule } from '@/modules/events/events.module';
     VideoModule,
     LiveKitModule,
     EventsModule,
+    NotificationsModule,
     RmqModule,
   ],
   controllers: [AppController],

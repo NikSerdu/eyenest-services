@@ -14,8 +14,26 @@ model User {
   email    String @unique
   password String
 
+  notificationSettings UserNotificationSettings?
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
+}
+
+model UserNotificationSettings {
+  id String @id @default(nanoid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  telegramEnabled Boolean @default(false)
+  telegramChatId  String?
+  emailEnabled    Boolean @default(false)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("user_notification_settings")
 }
