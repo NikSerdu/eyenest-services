@@ -6,6 +6,7 @@ import {
 } from '@eyenest/contracts/gen/ts/camera';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import { IVideoService } from '@/domain/services/video.service';
 import { AccessToken } from 'livekit-server-sdk';
 
@@ -19,7 +20,8 @@ export class VideoService implements IVideoService {
       this.config.getOrThrow('LIVEKIT_API_KEY'),
       this.config.getOrThrow('LIVEKIT_API_SECRET'),
       {
-        identity: data.userId,
+        identity: `viewer-${data.userId}-${randomUUID()}`,
+        name: data.userId,
       },
     );
     at.addGrant({
