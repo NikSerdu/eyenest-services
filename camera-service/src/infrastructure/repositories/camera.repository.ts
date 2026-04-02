@@ -104,7 +104,7 @@ export class CameraRepository implements ICameraRepository {
   async getCameraByNameAndLocation(
     data: GetCameraByNameAndLocation,
   ): Promise<CameraEntity | null> {
-    return await this.prisma.camera.findUnique({
+    return await this.prisma.camera.findFirst({
       where: {
         name: data.cameraName,
         locationId: data.locationId,
