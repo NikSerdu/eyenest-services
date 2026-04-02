@@ -24,6 +24,10 @@ import {
 import type { Response, Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { Auth, Current } from '@/shared';
+import {
+  clearSessionCookieOptions,
+  sessionCookieOptions,
+} from '@/shared/session-cookie-options';
 import { GetUserResponse } from './dto/responses/getUser.res';
 
 @Controller('auth')
@@ -74,20 +78,10 @@ export class AuthController {
       body,
     );
 
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
-      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
-      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
+    const maxAge = 30 * 24 * 60 * 60 * 1000;
+    const opts = sessionCookieOptions(this.config, maxAge);
+    res.cookie('accessToken', accessToken, opts);
+    res.cookie('refreshToken', refreshToken, opts);
     return { accessToken };
   }
 
@@ -108,21 +102,10 @@ export class AuthController {
       { refreshToken },
     );
 
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
-      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
-
-    res.cookie('refreshToken', newRefreshToken, {
-      httpOnly: true,
-      secure: this.config.get('NODE_ENV') !== 'development',
-      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
+    const maxAge = 30 * 24 * 60 * 60 * 1000;
+    const opts = sessionCookieOptions(this.config, maxAge);
+    res.cookie('accessToken', accessToken, opts);
+    res.cookie('refreshToken', newRefreshToken, opts);
 
     return { accessToken };
   }
@@ -134,8 +117,9 @@ export class AuthController {
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
+    const clr = clearSessionCookieOptions(this.config);
+    res.clearCookie('accessToken', clr);
+    res.clearCookie('refreshToken', clr);
 
     return { ok: true };
   }

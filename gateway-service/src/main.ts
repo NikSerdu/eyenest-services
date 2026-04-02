@@ -10,6 +10,10 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const httpServer = app.getHttpAdapter().getInstance();
+  if (typeof httpServer.set === 'function') {
+    httpServer.set('trust proxy', 1);
+  }
   app.use(express.raw({ type: 'application/webhook+json' }));
   const config = app.get(ConfigService);
   const logger = new Logger();

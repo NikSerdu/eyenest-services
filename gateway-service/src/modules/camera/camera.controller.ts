@@ -34,6 +34,10 @@ import {
 import type { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { CameraClientGrpc } from '@/core/grpc-clients/camera.grpc';
+import {
+  clearSessionCookieOptions,
+  sessionCookieOptions,
+} from '@/shared/session-cookie-options';
 
 @Controller('camera')
 export class CameraController {
@@ -116,20 +120,10 @@ export class CameraController {
       'linkCamera',
       body,
     );
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
-      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
-      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
+    const maxAge = 30 * 24 * 60 * 60 * 1000;
+    const opts = sessionCookieOptions(this.config, maxAge);
+    res.cookie('accessToken', accessToken, opts);
+    res.cookie('refreshToken', refreshToken, opts);
     return {
       accessToken,
     };
@@ -172,21 +166,10 @@ export class CameraController {
     const { accessToken, refreshToken: newRefreshToken } =
       await this.camera.call('refresh', { refreshToken });
 
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: this.config.getOrThrow('NODE_ENV') !== 'development',
-      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
-
-    res.cookie('refreshToken', newRefreshToken, {
-      httpOnly: true,
-      secure: this.config.get('NODE_ENV') !== 'development',
-      domain: this.config.getOrThrow<string>('COOKIES_DOMAIN'),
-      sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
+    const maxAge = 30 * 24 * 60 * 60 * 1000;
+    const opts = sessionCookieOptions(this.config, maxAge);
+    res.cookie('accessToken', accessToken, opts);
+    res.cookie('refreshToken', newRefreshToken, opts);
 
     return { accessToken };
   }
@@ -198,8 +181,9 @@ export class CameraController {
   @Auth('camera')
   @Post('resetCameraLink')
   async resetCameraLink(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
+    const clr = clearSessionCookieOptions(this.config);
+    res.clearCookie('accessToken', clr);
+    res.clearCookie('refreshToken', clr);
   }
 
   @ApiOperation({
