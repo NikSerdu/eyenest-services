@@ -22,7 +22,7 @@ export class DeleteRecordingUseCase {
   async execute(
     data: DeleteRecordingRequest,
   ): Promise<DeleteRecordingResponse> {
-    const recs = await this.videoRepository.deleteVideoFile(data.recordingId);
+    const recs = await this.videoRepository.getVideoFileById(data.recordingId);
     if (!recs) {
       throw new RpcException({
         code: RpcStatus.NOT_FOUND,
@@ -32,6 +32,8 @@ export class DeleteRecordingUseCase {
 
     const key = recs.playlistName.split('/').slice(0, -1).join('/');
     await this.s3Service.deleteFolder(key);
+    await this.videoRepository.deleteVideoFile(data.recordingId);
+
     return {
       recording: {
         id: recs.id,

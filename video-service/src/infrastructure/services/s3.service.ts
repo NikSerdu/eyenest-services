@@ -11,17 +11,24 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class S3Service implements IS3Service {
-  private s3Client: S3Client;
+  /** Presigned URL — внешний host (браузер). */
+  private readonly s3ForPresign: S3Client;
+  /** List/Delete — внутри Docker к minio:9000, без nginx и без рассинхрона Host в SigV4. */
+  private readonly s3ForApi: S3Client;
 
   constructor(private readonly configService: ConfigService) {
-    this.s3Client = new S3Client({
-      region: 'test',
+    const credentials = {
+      accessKeyId: this.configService.getOrThrow('MINIO_ACCESS_KEY'),
+      secretAccessKey: this.configService.getOrThrow('MINIO_SECRET_KEY'),
+    };
+    const opts = { region: 'test' as const, credentials, forcePathStyle: true };
+    this.s3ForPresign = new S3Client({
+      ...opts,
       endpoint: this.configService.getOrThrow('MINIO_EXTERNAL_ENDPOINT'),
-      credentials: {
-        accessKeyId: this.configService.getOrThrow('MINIO_ACCESS_KEY'),
-        secretAccessKey: this.configService.getOrThrow('MINIO_SECRET_KEY'),
-      },
-      forcePathStyle: true,
+    });
+    this.s3ForApi = new S3Client({
+      ...opts,
+      endpoint: this.configService.getOrThrow('MINIO_ENDPOINT'),
     });
   }
 
@@ -31,7 +38,7 @@ export class S3Service implements IS3Service {
       Key: fileName,
     });
 
-    const url = await getSignedUrl(this.s3Client, command, {
+    const url = await getSignedUrl(this.s3ForPresign, command, {
       expiresIn: this.configService.getOrThrow('PRESIGNED_URL_EXPIRES_IN'),
     });
     return url;
@@ -43,7 +50,7 @@ export class S3Service implements IS3Service {
       Prefix: folderKey.endsWith('/') ? folderKey : `${folderKey}/`,
     };
 
-    const listedObjects = await this.s3Client.send(
+    const listedObjects = await this.s3ForApi.send(
       new ListObjectsV2Command(listParams),
     );
 
@@ -55,7 +62,7 @@ export class S3Service implements IS3Service {
       Bucket: this.configService.getOrThrow('MINIO_BUCKET'),
       Delete: { Objects: listedObjects.Contents.map(({ Key }) => ({ Key })) },
     };
-    await this.s3Client.send(new DeleteObjectsCommand(deleteParams));
+    await this.s3ForApi.send(new DeleteObjectsCommand(deleteParams));
 
     if (listedObjects.IsTruncated) {
       await this.deleteFolder(folderKey);
